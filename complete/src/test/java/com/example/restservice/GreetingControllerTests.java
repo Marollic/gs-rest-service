@@ -34,6 +34,7 @@ public class GreetingControllerTests {
 	@Autowired
 	private MockMvc mockMvc;
 
+	/** Retorna uma menssagem 'Hello, World' quando é requisitada url /greeting - não é nessario passar nenhum parametro */
 	@Test
 	public void noParamGreetingShouldReturnDefaultMessage() throws Exception {
 
@@ -41,12 +42,13 @@ public class GreetingControllerTests {
 				.andExpect(jsonPath("$.content").value("Hello, World!"));
 	}
 
+	/** Retorna uma menssagem 'Hello, $name' quando é requisitada url /greeting?name="Spring Community" é necessário passar o parametro name */
 	@Test
 	public void paramGreetingShouldReturnTailoredMessage() throws Exception {
 
 		this.mockMvc.perform(get("/greeting").param("name", "Spring Community"))
 				.andDo(print()).andExpect(status().isOk())
-				.andExpect(jsonPath("$.content").value("Hello, Spring Community!"));
+				.andExpect(jsonPath("$.content").value("Hello, $name"));
 	}
 
 }
